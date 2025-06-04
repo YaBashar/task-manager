@@ -1,99 +1,112 @@
-import './index.css';
+import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
+import "./index.css";
+import { DatePanel } from "./DatePanel";
 
-const tasks = [
-  {
-    title: "Task 1",
-    description: "Do Task 1",
-    dueDate: "30/05"
-  },
-
-  { 
-    title: "Task 2",
-    description: "Do Task 2",
-    dueDate: "30/05"
-  },
-
-  { 
-    title: "Task 3",
-    description: "Do Task 2",
-    dueDate: "30/05"
-  }
-]
 
 function App() {
+  const [tasks, setTasks] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  function toggleDialog() {
+    setIsOpen(!isOpen);
+  }
+
   return (
-   <div className = "container">
-      <SidePanel />
-      <MainPanel />
-   </div>
+    <div className="container">
+      <SidePanel tasks={tasks} />
+      <MainPanel tasks={tasks} onToggleDialog={toggleDialog} />
+      <Form isOpen={isOpen} onToggleDialog={toggleDialog} />
+    </div>
   );
 }
 
-function MainPanel() {
+function MainPanel({ tasks, onToggleDialog }) {
   return (
-    <div className = "mainPanel">
+    <div className="mainPanel">
       <DatePanel />
-      <TaskList />
+      <TaskList tasks={tasks} onToggleDialog={onToggleDialog} />
     </div>
-  )
+  );
 }
 
-function SidePanel() {
+function SidePanel({ tasks }) {
   return (
-  
-    <div className = "sidePanel">
+    <div className="sidePanel">
       <h2>Mubashir 😊</h2>
 
-      <ul className = "sideList">
-        {tasks.map((task) =>  
-          <li>{task.title}</li>   
-        )}
+      <ul className="sideList">
+        {tasks.map((task) => (
+          <TaskItem
+            title={task.title}
+            description={task.description}
+            dueDate={task.dueDate}
+            isExpand={false}
+          />
+        ))}
       </ul>
     </div>
-     
-  )
+  );
 }
 
-
-
-function DatePanel() {
-
-  const date = new Date()
-
+function TaskList({ tasks, onToggleDialog }) {
   return (
-    <div className = "datePanel">
-      <p>Welcome</p>
-      <p>Today is {date.toDateString()}</p>
-    </div>
-  )
-}
-
-function TaskList() {
-  return (
-    <ul className = "taskList">
-      {tasks.map((task) => 
-        <TaskItem 
-          title = {task.title} 
-          description = {task.description}
-          dueDate = {task.dueDate}
+    <>
+      <ul className="taskList">
+        {tasks.map((task) => (
+          <TaskItem
+            title={task.title}
+            description={task.description}
+            dueDate={task.dueDate}
+            isExpand={true}
           />
-        )}
+        ))}
 
         <div className="addItem">
-          <p>Add New Task ➕</p>
+          <p onClick={onToggleDialog}>Add New Task ➕</p>
         </div>
-    </ul>
-  )
+      </ul>
+    </>
+  );
 }
 
-function TaskItem({title, description, dueDate}) {
+function Form({ onToggleDialog, isOpen }) {
+  function handleSubmit(e) {
+    e.preventDefault()
+  }
+
   return (
-    <li className = "taskItem">
+    <Dialog open={isOpen} onClose={onToggleDialog} className="dialogOverlay">
+      <div className="dialogWrapper">
+        <DialogPanel className="dialogPanel">
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Add Task Name"
+            ></input>
+            <input type="text" placeholder="Add Task Description"></input>
+            <input type="date" placeholder="Add Due Date"></input>
+          </form>
+
+          <button onClick={onToggleDialog}>Close</button>
+        </DialogPanel>
+      </div>
+    </Dialog>
+  );
+}
+
+function TaskItem({ title, description, dueDate, isExpand }) {
+  return (
+    <li className={isExpand ? "taskItem" : "sideItem"}>
       <p>{title} 🪜</p>
-      <p>{description}</p>
-      <p>{dueDate} <input className = "checkbox" type = "checkbox"></input></p>
+      {isExpand && <p>{description}</p>}
+      {isExpand && (
+        <p>
+          {dueDate} <input className="checkbox" type="checkbox"></input>
+        </p>
+      )}
     </li>
-  )
+  );
 }
 
 export default App;
