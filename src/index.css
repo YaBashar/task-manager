@@ -35,7 +35,7 @@ body, #root {
   text-align: center;
 }
 
-.sideList li {
+.sideItem {
   border: 2px solid #02424F;
   margin: 30px;
   height: 10%;
@@ -117,4 +117,36 @@ body, #root {
   width: 15px;
   height: 15px;
   margin-left: 20px;
+}
+
+.dialogOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background-color: #000000bf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dialogWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 75%;
+  height: 100%;
+  padding: 1rem;
+}
+
+.dialogPanel {
+  border-radius: 30px;
+  background-color: #00B4D8;
+  border: 4px solid #CAF0F8;
+  width: 50%;
+  height: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
