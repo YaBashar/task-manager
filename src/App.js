@@ -3,7 +3,6 @@ import { Dialog, DialogPanel } from "@headlessui/react";
 import "./index.css";
 import { DatePanel } from "./DatePanel";
 
-
 function App() {
   const [tasks, setTasks] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -12,11 +11,16 @@ function App() {
     setIsOpen(!isOpen);
   }
 
+  function addTask(task) {
+    console.log(task)
+    setTasks((tasks) => [...tasks, task]);
+  }
+
   return (
     <div className="container">
       <SidePanel tasks={tasks} />
       <MainPanel tasks={tasks} onToggleDialog={toggleDialog} />
-      <Form isOpen={isOpen} onToggleDialog={toggleDialog} />
+      <Form isOpen={isOpen} onToggleDialog={toggleDialog} onAddTask = {addTask}/>
     </div>
   );
 }
@@ -38,6 +42,7 @@ function SidePanel({ tasks }) {
       <ul className="sideList">
         {tasks.map((task) => (
           <TaskItem
+            key = {task}
             title={task.title}
             description={task.description}
             dueDate={task.dueDate}
@@ -70,25 +75,63 @@ function TaskList({ tasks, onToggleDialog }) {
   );
 }
 
-function Form({ onToggleDialog, isOpen }) {
+function Form({ onToggleDialog, isOpen, onAddTask }) {
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [date, setDate] = useState("");
+
   function handleSubmit(e) {
-    e.preventDefault()
+  
+    e.preventDefault();
+
+    if(!title || !description || !date) {
+      alert("Missing Input")
+      return
+    }
+
+    const task = {title, description, dueDate: date, isExpand: true}
+    console.log(task)
+
+    onAddTask(task)
+
+    setTitle("")
+    setDescription("")
+    setDate("")
   }
 
   return (
     <Dialog open={isOpen} onClose={onToggleDialog} className="dialogOverlay">
       <div className="dialogWrapper">
         <DialogPanel className="dialogPanel">
-          <form onSubmit={handleSubmit}>
+
+          <button class="close" onClick={onToggleDialog}>❌</button>
+          <form>
             <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               type="text"
               placeholder="Add Task Name"
             ></input>
-            <input type="text" placeholder="Add Task Description"></input>
-            <input type="date" placeholder="Add Due Date"></input>
+
+            <input
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              type="text"
+              placeholder="Add Task Description"
+            ></input>
+
+            <input
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              type="date"
+              placeholder="Add Due Date"
+            ></input>
+
+            <button class="submit" onClick={handleSubmit}>Submit</button>
           </form>
 
-          <button onClick={onToggleDialog}>Close</button>
+          
+
         </DialogPanel>
       </div>
     </Dialog>

@@ -150,3 +150,35 @@ body, #root {
   justify-content: center;
   align-items: center;
 }
+
+.close {
+  cursor: pointer;
+  margin-left: 350px;
+  margin-top: 10px;
+  border: none;
+  background-color: #00B4D8;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  width: 70%;
+  margin: 10px;
+}
+
+form input {
+  height: 20%;
+  text-align: center;
+  border-radius: 10px;
+  border: 2px solid #02424F;
+}
+
+.submit {
+  cursor: pointer;
+  height: 20%;
+  text-align: center;
+  border-radius: 10px;
+  border: 2px solid #02424F;
+}
