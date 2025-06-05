@@ -40,7 +40,7 @@ body, #root {
   margin: 30px;
   height: 10%;
   list-style: none;
-  font-size: 25px;
+  font-size: 20px;
   border-radius: 15px;
 
   display: flex;
@@ -83,6 +83,7 @@ body, #root {
   gap: 30px;
   overflow-y: auto;
   margin: 10px;
+  margin-right: 50px;
 }
 
 .taskItem, .addItem {
@@ -90,33 +91,34 @@ body, #root {
   background-color: #CAF0F8;
   color: #02424F;
   list-style: none;
-  width: 20%;
+  width: 30%;
   height: 45%;
   text-align: left;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 600;
   border-radius: 20px;
+  padding: 15px;
+  word-wrap: break-word;
 }
 
 .addItem p {
-  font-size: 20px;
+  font-size: 25px;
   text-align: center;
   padding-left: 15px;
   cursor: pointer;
 }
 
 .taskItem p {
-  margin: 10px;
-  padding-left: 15px;
+  margin-bottom: 10px;
 }
 
 .checkbox {
   width: 15px;
   height: 15px;
-  margin-left: 20px;
+  border: 1px solid green;
 }
 
 .dialogOverlay {
